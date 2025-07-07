@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <string.h>
 
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -37,12 +38,14 @@ static inline uint16_t vga_entry(unsigned char letter, uint8_t color){
 	return (uint16_t) letter | (uint16_t) color << 8;
 }
 
+/*
 size_t strlen(const char* str){
 	size_t len = 0;
 	while (str[len])
 		len++;
 	return len;
 }
+*/
 
 #define VGA_WIDTH   80
 #define VGA_HEIGHT  25
