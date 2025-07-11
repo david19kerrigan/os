@@ -1,15 +1,16 @@
-OBJS=string/strlen.o
+OBJS=string/strlen.libc.o
 BINARIES=libc.a
 
-INCLUDE_DIR=/usr/local/include/
-LIB_DIR=/usr/local/lib/
-
 .PHONY: clean install install-headers install-libs
+.SUFFIXES: .o .libc.o .c .s
 
 libc.a: $(OBJS)
-	ar rcs $@ $(OBJS)
+	$(AR) rcs $@ $(OBJS)
 
 .c.o:
+	$(CC) -MD -c $< -o $@ -std=gnu99 -ffreestanding -O2 -Wall -Wextra -Iinclude
+
+.c.libc.o:
 	$(CC) -MD -c $< -o $@ -std=gnu99 -ffreestanding -O2 -Wall -Wextra -Iinclude
 
 clean:
@@ -21,10 +22,10 @@ clean:
 install: install-headers install-libs
 
 install-headers: 
-	mkdir -p $(SYSROOT)$(INCLUDE_DIR)
-	cp -R include/. $(SYSROOT)$(INCLUDE_DIR).
+	mkdir -p $(SYSROOT)$(INCLUDEDIR)
+	cp -R include/. $(SYSROOT)$(INCLUDEDIR)/.
 
 install-libs: $(BINARIES)
-	mkdir -p $(SYSROOT)$(LIB_DIR)
-	cp $(BINARIES) $(SYSROOT)$(LIB_DIR).
+	mkdir -p $(SYSROOT)$(LIBDIR)
+	cp $(BINARIES) $(SYSROOT)$(LIBDIR)
 
