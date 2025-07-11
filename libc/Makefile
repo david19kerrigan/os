@@ -1,16 +1,26 @@
-OBJS=string/strlen.libc.o
-BINARIES=libc.a
+OBJS=\
+stdio/printf.libk.o \
+stdio/putchar.libk.o \
+stdio/puts.libk.o \
+stdlib/abort.libk.o \
+string/memcmp.libk.o \
+string/memcpy.libk.o \
+string/memmove.libk.o \
+string/memset.libk.o \
+string/strlen.libk.o \
+
+BINARIES=libk.a
 
 .PHONY: clean install install-headers install-libs
-.SUFFIXES: .o .libc.o .c .s
+.SUFFIXES: .o .libk.o .c .s
 
-libc.a: $(OBJS)
+libk.a: $(OBJS)
 	$(AR) rcs $@ $(OBJS)
 
 .c.o:
 	$(CC) -MD -c $< -o $@ -std=gnu99 -ffreestanding -O2 -Wall -Wextra -Iinclude
 
-.c.libc.o:
+.c.libk.o:
 	$(CC) -MD -c $< -o $@ -std=gnu99 -ffreestanding -O2 -Wall -Wextra -Iinclude
 
 clean:
